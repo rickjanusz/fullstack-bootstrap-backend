@@ -1,8 +1,11 @@
 import {createAuth} from '@keystone-next/auth'
 import { config, createSchema } from '@keystone-next/keystone/schema';
+import {withItemData, statelessSessions} from '@keystone-next/keystone/session'
 import 'dotenv/config';
 import {User} from './schemas/User'
-import {withItemData, statelessSessions} from '@keystone-next/keystone/session'
+import {Product} from './schemas/Product'
+import {ProductImage} from './schemas/ProductImage'
+import { insertSeedData } from './seed-data';
 
 const databaseURL = process.env.DATABASE_URL || 'mongodb://localhost/keystone';
 
@@ -34,10 +37,16 @@ export default withAuth(config({
   db: {
     adapter: 'mongoose',
     url: databaseURL,
-    // TODO: Add data seeding here
+    // insert seed data
+    async onConnect(keystone) {
+        if(process.argv.includes('--seed-data'))
+        await insertSeedData(keystone);
+    }
   },
   lists: createSchema({
-    User
+    User,
+    Product,
+    ProductImage
   }),
   ui: {
     // TODO: Change this for roles

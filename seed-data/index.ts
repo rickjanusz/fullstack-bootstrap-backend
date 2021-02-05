@@ -2,7 +2,7 @@ import { products } from './data';
 
 export async function insertSeedData(keystone: any) {
   console.log(`🌱 Inserting Seed Data: ${products.length} Products`);
-  const { mongoose } = keystone.adapters.MongooseAdapter;
+  const { mongoose } = keystone;
   for (const product of products) {
     console.log(`  🛍️ Adding Product: ${product.name}`);
     const { _id } = await mongoose
