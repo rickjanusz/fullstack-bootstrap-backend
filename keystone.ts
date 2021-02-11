@@ -4,6 +4,7 @@ import {withItemData, statelessSessions} from '@keystone-next/keystone/session'
 import 'dotenv/config';
 import {User} from './schemas/User'
 import {Product} from './schemas/Product'
+import {CartItem} from './schemas/CartItem'
 import {ProductImage} from './schemas/ProductImage'
 import { insertSeedData } from './seed-data';
 import { sendPasswordResetEmail } from './lib/mail';
@@ -53,7 +54,8 @@ export default withAuth(config({
   lists: createSchema({
     User,
     Product,
-    ProductImage
+    ProductImage,
+    CartItem,
   }),
   ui: {
     // TODO: Change this for roles
