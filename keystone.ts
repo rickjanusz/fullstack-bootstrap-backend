@@ -1,5 +1,5 @@
 import {createAuth} from '@keystone-next/auth'
-import { config, createSchema } from '@keystone-next/keystone/schema';
+import { config, createSchema, exte } from '@keystone-next/keystone/schema';
 import {withItemData, statelessSessions} from '@keystone-next/keystone/session'
 import 'dotenv/config';
 import {User} from './schemas/User'
@@ -8,6 +8,7 @@ import {CartItem} from './schemas/CartItem'
 import {ProductImage} from './schemas/ProductImage'
 import { insertSeedData } from './seed-data';
 import { sendPasswordResetEmail } from './lib/mail';
+import { extendGraphqlSchema } from './mutations';
 
 const databaseURL = process.env.DATABASE_URL || 'mongodb://localhost/keystone';
 
@@ -57,6 +58,7 @@ export default withAuth(config({
     ProductImage,
     CartItem,
   }),
+  extendGraphqlSchema: extendGraphqlSchema,
   ui: {
     // TODO: Change this for roles
     isAccessAllowed: ({session}) => {
