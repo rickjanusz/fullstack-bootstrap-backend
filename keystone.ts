@@ -7,10 +7,12 @@ import {Product} from './schemas/Product'
 import {CartItem} from './schemas/CartItem'
 import {OrderItem} from './schemas/OrderItem'
 import {Order} from './schemas/Order'
+import {Role} from './schemas/Role'
 import {ProductImage} from './schemas/ProductImage'
 import { insertSeedData } from './seed-data';
 import { sendPasswordResetEmail } from './lib/mail';
 import { extendGraphqlSchema } from './mutations';
+import { permissionsList } from './schemas/fields';
 
 const databaseURL = process.env.DATABASE_URL || 'mongodb://localhost/keystone';
 
@@ -61,6 +63,7 @@ export default withAuth(config({
     CartItem,
     OrderItem,
     Order,
+    Role
   }),
   extendGraphqlSchema: extendGraphqlSchema,
   ui: {
@@ -71,6 +74,6 @@ export default withAuth(config({
     }
   },
   session: withItemData(statelessSessions(sessionConfig), {
-      User: `id`
+      User: `id name email role { ${permissionsList.join(' ')} }`
   })
 }));
